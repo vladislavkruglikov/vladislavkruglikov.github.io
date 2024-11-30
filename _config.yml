@@ -35,6 +35,7 @@ google_analytics: G-512WJGRMGV
 theme: minima
 plugins:
   - jekyll-feed
+  - jektex
 
 # Exclude from processing.
 # The following items will not be processed, by default.
