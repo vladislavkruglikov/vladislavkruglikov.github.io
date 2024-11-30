@@ -4,15 +4,6 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
-
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
+As an accomplished Research Engineer with over a 3 years of ML experience I specialize in natural language processing and consistently deliver high quality products. My track record includes building auto machine learning platform that impacted many teams and user experiences. I have played a key tech leadership role in cross functional team collaboration setting direction for teams and mentoring junior team members
 
 [jekyll-organization]: https://github.com/jekyll
