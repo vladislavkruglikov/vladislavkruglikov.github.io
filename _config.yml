@@ -29,6 +29,8 @@ show_excerpts: true
 # twitter_username: jekyllrb
 # github_username:  jekyll
 
+google_analytics: G-512WJGRMGV
+
 # Build settings
 theme: minima
 plugins:
