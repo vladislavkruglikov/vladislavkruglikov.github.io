@@ -429,6 +429,16 @@ Here is more exampels [cp-algorithms.com][cp-algorithms.com]
 
 [cp-algorithms.com]: https://cp-algorithms.com/algebra/all-submasks.html
 
+off topic just looks good iterator
+
+{% highlight python %}
+def _submasks(self, mask: int) -> Generator[int, None, None]:
+  s = mask
+  while s > 0:
+    yield s
+    s = (s - 1) & mask
+{% endhighlight %}
+
 #### **Submasks of inverse**
 
 Popular pattern where we have "used" bitmask, and on each iteration generate all pairs among free elements
@@ -520,6 +530,7 @@ class Solution:
         @cache
         def dp(i, used):
             if i == k - 1:
+                # last user must take all of the remaining since all elements must be used
                 not_used = 2 ** len(nums) - 1 - used
                 return s[not_used] == target_sum
             
@@ -543,4 +554,289 @@ And now passed. Generally here we used few patters.
 * [Go to Sum Of All Subsets](#sum-of-all-subsets) to efficiently get sum of combination in O(1)
 * [Smart Submasks of inverse](#smart-submasks-of-inverse) to efficiently get submasks of not used elements (i.e free elements)
 
+#### **[1986. Minimum Number of Work Sessions to Finish the Tasks][1986]**
+
+Pretty much the same task except we have to filter combinations by the extra constrain 
+* sum of elements must be no bigger than sessionTime
+
+{% highlight python %}
+class Solution:
+    def minSessions(self, tasks: List[int], sessionTime: int) -> int:
+        n = len(tasks)
+        S = [0 for _ in range(1 << n)]
+        for c in range(1 << n):
+            for i in range(n):
+                if (1 << i) & c:
+                    S[c] += tasks[i]
+
+
+        @cache
+        def dp(used_tasks: int) -> int:
+            if used_tasks == (2 ** n - 1):
+                return 0
+            options = []
+            unused_tasks = (2 ** n - 1) - used_tasks
+            unused_tasks_combination = unused_tasks
+            while unused_tasks_combination > 0:
+                if S[unused_tasks_combination] <= sessionTime:
+                    updated_used_tasks = used_tasks | unused_tasks_combination
+                    option = 1 + dp(updated_used_tasks)
+                    options.append(option)
+                unused_tasks_combination = (unused_tasks_combination - 1) & unused_tasks
+            return min(options)
+
+
+        return dp(used_tasks=0)
+{% endhighlight %}
+
+#### **[2305. Fair Distribution of Cookies][2305]**
+
+pretty much the same really
+
+{% highlight python %}
+class Solution:
+    def distributeCookies(self, cookies: List[int], k: int) -> int:
+        n = len(cookies)
+        S = [0 for _ in range(1 << n)]
+        for c in range(1 << n):
+            for i in range(n):
+                if (1 << i) & c:
+                    S[c] += cookies[i]
+
+
+        @cache
+        def dp(kid, used_cookies) -> int:
+            if kid == k - 1:
+                not_used_cookies = 2 ** n - 1 - used_cookies
+                return S[not_used_cookies]
+            if used_cookies == 2 ** n - 1:
+                return -1
+            options = []
+            not_used_cookies = 2 ** n - 1 - used_cookies
+            not_used_cookies_combination = not_used_cookies
+            while not_used_cookies_combination > 0:
+                kid_total_cookies = S[not_used_cookies_combination]
+                updated_used_cookies = used_cookies | not_used_cookies_combination
+                rest_max_per_kid_cookies = dp(kid + 1, updated_used_cookies)
+                option = max(kid_total_cookies, rest_max_per_kid_cookies)
+                options.append(option)
+                not_used_cookies_combination = (not_used_cookies_combination - 1) & not_used_cookies
+            return min(options)
+        
+
+        return dp(0, 0)
+
+{% endhighlight %}
+
+#### **[1066. Campus Bikes II][1066]**
+
+Just try to assign each worker to each possible bike, then try to do the same with all left workers and without that taken bike
+
+{% highlight python %}
+class Solution:
+    def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> int:
+        n = len(workers)
+        m = len(bikes)
+        
+        
+        @cache
+        def _assignBikes(worker_index: int, left_bikes_bit_mask: int) -> int:
+            if worker_index == n:
+                return 0
+            options = []
+            for bike_index in range(m):
+                bike_if_free = not (left_bikes_bit_mask >> bike_index) & 1
+                if bike_if_free:
+                    worker = workers[worker_index]
+                    bike = bikes[bike_index]
+                    distance_beterrn_worker_and_bike = self._distance(worker, bike)
+                    new_left_bikes_bit_mask = left_bikes_bit_mask | (1 << bike_index)
+                    option = distance_beterrn_worker_and_bike + _assignBikes(worker_index + 1, new_left_bikes_bit_mask)
+                    options.append(option)
+            
+            return min(options)
+
+
+        return _assignBikes(worker_index=0, left_bikes_bit_mask=0)
+
+    def _distance(self, worker: list[int], bike: list[int]) -> int:
+        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1])
+{% endhighlight %}
+
+#### **[1723. Find Minimum Time to Finish All Jobs][1723]**
+
+cmone is it hard?
+
+{% highlight python %}
+class Solution:
+    def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
+        n = len(jobs)
+        S = [0 for _ in range(1 << n)]
+        for c in range(1 << n):
+            for i in range(n):
+                if (1 << i) & c:
+                    S[c] += jobs[i]
+
+
+        @cache
+        def solve(worker_index: int, taken_jobs_bitmask: int) -> int:    
+            if taken_jobs_bitmask == 2 ** n - 1:
+                return -1
+            if worker_index == k - 1:
+                return S[2 ** n - 1 - taken_jobs_bitmask]
+            min_option = float("inf")
+            not_used = 2 ** n - 1 - taken_jobs_bitmask
+            not_used_combination = not_used
+            while not_used_combination > 0:
+                worker_time = S[not_used_combination]
+                if worker_time < min_option:
+                    updated_taken_jobs_bitmask = taken_jobs_bitmask | not_used_combination
+                    min_option = min(min_option, max(worker_time, solve(worker_index + 1, updated_taken_jobs_bitmask)))
+                
+                not_used_combination = (not_used_combination - 1) & not_used
+            return min_option
+        
+
+        return solve(0, 0)
+{% endhighlight %}
+
+#### **[1994. The Number of Good Subsets][1994]**
+
+finally some good fucking food. Constraints say that number magnitude is in [1, 30] which means number are quite small. By defenition the product must be represented by distinct prime numbers which means numbers such as 2 * 2 = 4 or 2 * 3 * 3 = 18 are bad for us. So create white list of such numbers which are 2, 3, 5, 6, 7, 10, 11, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30. Also notice that there are only that primes 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, there are only 10 of them, smells like bitmask
+
+The general idea what we want to do is to create state (start_index, used_prime_numbers) and then for each start_index we can try to take or not take value.
+* if we take value, then we need to make sure that it is inside list of good numbers. then we need to check that primes, that this number is composed from are not contained in used primes bitmask. then we can take this number, update used primes bitmask and move to the next number
+* if we do not take value just keep used primes bitmask the same and move to the next number
+
+also precomoute bitmask represention "used" where each bit represents that one of our 10 primes have been used
+
+also do not forget ones, since they are not prime numbers and do not break our subarrays, then for each subaray we can include any combinatipon of ones (empty combination of ones is good too), basically combinatoric product rule and we gen (2 ** OnesCount) * SubArraysCount where 2 ** OnesCount is all combinations of take/not take one for every one
+
+{% highlight python %}
+class Solution:
+    def numberOfGoodSubsets(self, nums: List[int]) -> int:
+        prime_masks = []
+        for number in range(0, 31):
+            prime_mask = self._create_prime_mask(number)
+            prime_masks.append(prime_mask)
+        number_of_ones = nums.count(1)
+        allowed_numbers = set([2, 3, 5, 6, 7, 10, 11, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30])
+        MOD = 10 ** 9 + 7
+
+
+        @cache
+        def dp(index, used):
+            if index == len(nums):
+                return used > 0
+            if used == 2 ** 10 - 1:
+                return 1
+            if prime_masks[nums[index]] & used != 0:
+                return dp(index + 1, used)
+            if nums[index] in allowed_numbers:
+                return (dp(index + 1, used | prime_masks[nums[index]]) + dp(index + 1, used)) % MOD
+            return dp(index + 1, used)
+
+        return 2 ** number_of_ones * dp(0, 0) % MOD
+
+    def _create_prime_mask(self, number: int) -> int:
+        mask = 0
+        prime_divisors = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+        for i, prime_divisor in enumerate(prime_divisors):
+            if number % prime_divisor == 0:
+                mask |= (1 << i)
+        return mask
+{% endhighlight %}
+
+but this gives memory limit, due to recursion stack since generally we have 10 ** 5 * 2 ** 10 states ~ 100M, tle would occur aswell i guess, just probably there were low amoutn of mem
+
+Notice that number of elements if $$10^5$$ while numbers itself are 1 <= number <= 30 which means we have a lot of duplicates. maybe we can use it somehow? it turns out yes. consider we take some number X to out subarray, and then it means that we can not take any other copy of X, i mean we can not have two or three or more 2s or 3s because it will contradict the definition that states that product consits of distict primes. Soo it leads us to idea that we can iterate over unique values of number and basically compute number of subarrays that can be composed with this value and then multipy by the count of how many times this value occurs!
+
+{% highlight python %}
+import collections
+
+
+class Solution:
+    def numberOfGoodSubsets(self, nums: List[int]) -> int:
+        prime_masks = []
+        for number in range(0, 31):
+            prime_mask = self._create_prime_mask(number)
+            prime_masks.append(prime_mask)
+        number_of_ones = nums.count(1)
+        allowed_numbers = set([2, 3, 5, 6, 7, 10, 11, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30])
+        MOD = 10 ** 9 + 7
+        C = collections.Counter(nums)
+        unique_numbers = list(set(nums))
+
+
+        @cache
+        def dp(index, used):
+            if index == len(unique_numbers):
+                return used > 0
+            if used == 2 ** 10 - 1:
+                return 1
+            if prime_masks[unique_numbers[index]] & used != 0:
+                return dp(index + 1, used)
+            if unique_numbers[index] in allowed_numbers:
+                return (C[unique_numbers[index]] * dp(index + 1, used | prime_masks[unique_numbers[index]]) + dp(index + 1, used)) % MOD
+            return dp(index + 1, used)
+
+        return 2 ** number_of_ones * dp(0, 0) % MOD
+
+    def _create_prime_mask(self, number: int) -> int:
+        mask = 0
+        prime_divisors = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+        for i, prime_divisor in enumerate(prime_divisors):
+            if number % prime_divisor == 0:
+                mask |= (1 << i)
+        return mask
+{% endhighlight %}
+
+And now it passes
+
+One more upgrade. Instead of creating large recursion stack and doing if inside function we can pre filter nums array. So we can filter entire nums such that we keep only numbers that are in whitelist. just do unique_numbers = list(set(nums) & allowed_numbers) and then u can move if that checks that in dp func. and code simplifies to
+
+
+{% highlight python %}
+import collections
+
+
+class Solution:
+    def numberOfGoodSubsets(self, nums: List[int]) -> int:
+        prime_masks = []
+        for number in range(0, 31):
+            prime_mask = self._create_prime_mask(number)
+            prime_masks.append(prime_mask)
+        number_of_ones = nums.count(1)
+        allowed_numbers = set([2, 3, 5, 6, 7, 10, 11, 13, 14, 15, 17, 19, 21, 22, 23, 26, 29, 30])
+        MOD = 10 ** 9 + 7
+        C = collections.Counter(nums)
+        unique_numbers = list(set(nums) & allowed_numbers)
+
+
+        @cache
+        def dp(index, used):
+            if index == len(unique_numbers):
+                return used > 0
+            if used == 2 ** 10 - 1:
+                return 1
+            if prime_masks[unique_numbers[index]] & used != 0:
+                return dp(index + 1, used)
+            return (C[unique_numbers[index]] * dp(index + 1, used | prime_masks[unique_numbers[index]]) + dp(index + 1, used)) % MOD
+
+        return 2 ** number_of_ones * dp(0, 0) % MOD
+
+    def _create_prime_mask(self, number: int) -> int:
+        mask = 0
+        prime_divisors = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+        for i, prime_divisor in enumerate(prime_divisors):
+            if number % prime_divisor == 0:
+                mask |= (1 << i)
+        return mask
+{% endhighlight %}
+
 [698]: https://leetcode.com/problems/partition-to-k-equal-sum-subsets
+[1986]: https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks
+[2305]: https://leetcode.com/problems/fair-distribution-of-cookies
+[1066]: https://leetcode.com/problems/campus-bikes-ii
+[1723]: https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs
+[1994]: https://leetcode.com/problems/the-number-of-good-subsets
