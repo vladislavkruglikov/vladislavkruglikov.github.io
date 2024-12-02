@@ -663,6 +663,8 @@ class Solution:
         return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1])
 {% endhighlight %}
 
+similar [1947. Maximum Compatibility Score Sum][1947]
+
 #### **[1723. Find Minimum Time to Finish All Jobs][1723]**
 
 cmone is it hard?
@@ -834,9 +836,76 @@ class Solution:
         return mask
 {% endhighlight %}
 
+#### **[2152. Minimum Number of Lines to Cover Points][2152]**
+
+Rare task. The idea generally is to look at what points are free. loop over all posible pairs of points (n)(n-1), draw line with this points (can get a and b coefs using system equation from 2 points), add to used all points that additionaly lie on this line, return 1 (the line we draw) + draw_lines(updated_used_points)
+
+#### **[2002. Maximum Product of the Length of Two Palindromic Subsequences][2002]**
+
+Really cool one, pre fetch bitmasks for query operation on is palindrome queries
+
+{% highlight python %}
+class Solution:
+    def maxProduct(self, s: str) -> int:
+        n = len(s)
+        # i need answer query question that combination is a palindrome
+        # precompute that
+        combination_to_palindrome_size = [0 for _ in range(1 << n)] # if size > 0 then palindrome exists
+        for combination in range(1, 1 << n): # do not consider 
+        # empty no set bits, since no chars is not a palindomr
+            chars = []
+            for i in range(n):
+                if (1 << i) & combination:
+                    chars.append(s[i])
+
+            l = 0
+            r = len(chars) - 1
+            while l < r and chars[l] == chars[r]:
+                l += 1
+                r -= 1
+            
+            if l > r or chars[l] == chars[r]:
+                combination_to_palindrome_size[combination] = len(chars)
+
+        # len(s) <= 12
+        # 2 ** 12 combinations
+        # then iterative over in the most case 2 ** 12 combinations other
+        # thus we have 2 ** 12 * 2 ** 12 = 16M cases
+        # for each case check if elements are palindromes?
+        a = 0
+        for used_first in range(1, 1 << n):
+            # check if used_first is palindrom
+            used_first_is_palindrome = bool(combination_to_palindrome_size[used_first] > 0)
+            if used_first_is_palindrome:
+                unused_first = (1 << n) - 1 - used_first
+                unused_first_variant = unused_first
+                while unused_first_variant > 0:
+                    # check that unused_first_variant is palindrom
+                    unused_first_variant_is_palindrome = bool(combination_to_palindrome_size[unused_first_variant])
+                    if unused_first_variant_is_palindrome:
+                        # compute number of set bits in the each palindrom
+                        first_size  = combination_to_palindrome_size[used_first]
+                        second_size = combination_to_palindrome_size[unused_first_variant]
+                        a = max(a, first_size * second_size)
+
+                    unused_first_variant = (unused_first_variant - 1) & unused_first
+        
+        return a
+{% endhighlight %}
+
+#### **[2572. Count the Number of Square-Free Subsets][2572]**
+
+Nice task
+
+Where to look for more tasks? Leetcode filter by tag bitmask, maybe search some lists on codeforces
+
 [698]: https://leetcode.com/problems/partition-to-k-equal-sum-subsets
 [1986]: https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks
 [2305]: https://leetcode.com/problems/fair-distribution-of-cookies
 [1066]: https://leetcode.com/problems/campus-bikes-ii
 [1723]: https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs
 [1994]: https://leetcode.com/problems/the-number-of-good-subsets
+[1947]: https://leetcode.com/problems/maximum-compatibility-score-sum
+[2152]: https://leetcode.com/problems/minimum-number-of-lines-to-cover-points
+[2002]: https://leetcode.com/problems/maximum-product-of-the-length-of-two-palindromic-subsequences
+[2572]: https://leetcode.com/problems/count-the-number-of-square-free-subsets
