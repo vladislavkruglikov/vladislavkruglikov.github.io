@@ -895,6 +895,128 @@ class Solution:
 
 #### **[2572. Count the Number of Square-Free Subsets][2572]**
 
+We are not allowed to have divisors that are not square free. That means that we are not allowed to have any prime number in the factorization more then once. If we have some prime number more then once it means that our sum is divisibly by square of that prime number which contradicts the description
+
+What we want to do is to keep track of used primes. Then for each element of the array we will decide whether we can take it or not based on the fact that primes that are contained inside new number have not occured in our used bit mask
+
+We can precompute bit mask of used prime number for every number in advance such that we can reference it laster very fast
+
+But notice that our algorithm that is used to create bit mask with used primes will assign the same bit mask for numbers $$2$$ and $$4$$ and even $$8$$ this is because they all have single prime number used that is $$2$$ but our bit mask does not account for the count. This means that we have to create list of bad numbers that we do not want to take. But notice that $$12$$ is also a bad number in the way that it contains $$4$$ which is bad. That means that we can not used any number that is divisible by $$4$$ and $$9$$ and $$16$$ and $$25$$
+
+Also notice that we can use $$1$$ as many times as we want. That means that total number of combinations is given as $$WithoutOnesCombinations + OnlyUseOnesCombinations + ForEachOneCombinationUseEveryOtherCombination$$ so we need to precompute number of ones in order to do that aswell
+
+{% highlight python %}
+import collections
+
+
+class Solution:
+    def squareFreeSubsets(self, nums: List[int]) -> int:
+        MOD = 10 ** 9 + 7
+
+        prime_numbers = []
+        for i in range(2, 31):
+            for j in range(2, i):
+                if i % j == 0:
+                    break
+            else:
+                prime_numbers.append(i)
+        
+        value_to_prime_used = []
+        for i in range(0, 31):
+            mask = 0
+            for j in range(len(prime_numbers)):
+                if i % prime_numbers[j] == 0:
+                    mask |= (1 << j)
+            value_to_prime_used.append(mask)
+
+        ones_count = nums.count(1)
+        bad_numbers = []
+        for num in range(1, 31):
+            if num % 4 == 0 or num % 9 == 0 or num % 16 == 0 or num % 25 == 0:
+                bad_numbers.append(num)
+        bad_numbers.append(1)
+        bad_numbers = set(bad_numbers)
+
+        @cache
+        def dp(i, used):
+            if i == len(nums):
+                return used > 0
+
+            count = 0
+            value = nums[i]
+            value_prime_mask = value_to_prime_used[value]
+            not_used = 2 ** 10 - 1 - used
+            if (nums[i] not in bad_numbers) and (not_used | value_prime_mask == not_used):
+                count = (count + dp(i + 1, used | value_prime_mask)) % MOD
+
+            count = count + dp(i + 1, used)
+            return count % MOD
+
+        ans = dp(0, 0)
+        return ((ans) + (2 ** ones_count - 1) + (ans * (2 ** ones_count - 1))) % MOD
+ {% endhighlight %}
+
+But this gives memory limit. Notice that we can not use any prime number more then once. Basically all of the pairs that we can have determined by all possible submasks of mask of ones of length $$10$$ since there are $$10$$ primes that are less then $$30$$ which means that instead of iterating over all elements we can iterate over unique elements and just update number of pairs multiplying by occurance count of each prime. Indeed suppose mask $$10010$$ is given which means that we have used $$3$$ and $$11$$ and in total we have $$5$$ occurances of $$3$$ and $$2$$ occurances of $$11$$ it is obvious that total number of occurances if $$5 \cdot 2$$ that is $$10$$
+
+{% highlight python %}
+import collections
+
+
+class Solution:
+    def squareFreeSubsets(self, nums: List[int]) -> int:
+        MOD = 10 ** 9 + 7
+
+        prime_numbers = []
+        for i in range(2, 31):
+            for j in range(2, i):
+                if i % j == 0:
+                    break
+            else:
+                prime_numbers.append(i)
+        
+        value_to_prime_used = []
+        for i in range(0, 31):
+            mask = 0
+            for j in range(len(prime_numbers)):
+                if i % prime_numbers[j] == 0:
+                    mask |= (1 << j)
+            value_to_prime_used.append(mask)
+    
+        ones_count = nums.count(1)
+        bad_numbers = []
+        for num in range(1, 31):
+            if num % 4 == 0 or num % 9 == 0 or num % 16 == 0 or num % 25 == 0:
+                bad_numbers.append(num)
+        bad_numbers.append(1)
+        bad_numbers = set(bad_numbers)
+        C = collections.Counter(nums)
+        unique_numbers = list(set(nums))
+
+
+        @cache
+        def dp(i, used):
+            if i == len(unique_numbers):
+                return used > 0
+            count = 0
+            value = unique_numbers[i]
+            value_prime_mask = value_to_prime_used[value]
+            not_used = 2 ** 10 - 1 - used
+            if (unique_numbers[i] not in bad_numbers) and (not_used | value_prime_mask == not_used):
+                count = (count + C[unique_numbers[i]] * dp(i + 1, used | value_prime_mask)) % MOD
+
+            count = count + dp(i + 1, used)
+            return count % MOD
+
+        ans = dp(0, 0)
+        return ((ans) + (2 ** ones_count - 1) + (ans * (2 ** ones_count - 1))) % MOD
+{% endhighlight %} 
+
+#### **[464. Can I Win][464]**
+
+Nice task
+
+#### **[136. Single Number][136]**
+
 Nice task
 
 Where to look for more tasks? Leetcode filter by tag bitmask, maybe search some lists on codeforces
@@ -909,3 +1031,5 @@ Where to look for more tasks? Leetcode filter by tag bitmask, maybe search some 
 [2152]: https://leetcode.com/problems/minimum-number-of-lines-to-cover-points
 [2002]: https://leetcode.com/problems/maximum-product-of-the-length-of-two-palindromic-subsequences
 [2572]: https://leetcode.com/problems/count-the-number-of-square-free-subsets
+[464]: https://leetcode.com/problems/can-i-win
+[136]: https://leetcode.com/problems/single-number
