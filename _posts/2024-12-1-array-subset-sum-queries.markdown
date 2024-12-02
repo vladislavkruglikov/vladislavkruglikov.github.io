@@ -97,7 +97,7 @@ So basically we can check it that way
 number = 22
 i = 1
 
-if (1 << i) & number:
+if ((1 << i) & number):
     print("Bit Is Set")
 else:
     print("Bit Is Not Set")
@@ -109,6 +109,16 @@ Check that bit $$i$$ is set
 a = 21
 print((1 << i) & a)
 {% endhighlight %}
+
+#### **[191. Number of 1 Bits](https://leetcode.com/problems/number-of-1-bits)**
+
+#### **All combinatons**
+
+How to generate all subsets of array for example. If you have 4 elements than there are $$2^4$$ combinations and each combination is some order of bits of length 4 which are all numbers that are strictly less then $$2^4$$
+
+Generate all subsets. for each subset iterate over its bits. If bit is set means that we have to use that element
+
+#### **[78. Subsets](https://leetcode.com/problems/subsets)**
 
 #### **Set a bit**
 
@@ -163,6 +173,52 @@ print(f"{number:b}")     # 10100
 number &= ~(1 << i)
 print(f"{number:b}")     # 10000
 {% endhighlight %}
+
+#### **[190. Reverse Bits](https://leetcode.com/problems/reverse-bits)**
+
+{% highlight python %}
+class Solution:
+    def reverseBits(self, n: int) -> int:
+        l = 0
+        r = 31
+        while l < r:
+            l_is_set = (n & (1 << l))
+            r_is_set = (n & (1 << r))
+            if l_is_set != r_is_set:
+                if l_is_set:
+                    n = n & (~(1 << l))
+                    n = n | (1 << r)
+                else:
+                    n = n & (~(1 << r))
+                    n = n | (1 << l)
+            l += 1
+            r -= 1
+        return n
+{% endhighlight %}
+
+this is wrong since l_is_set = (n & (1 << l)) might bit set bit position diff from r_set thus the number it self is different why both have bits set this is why we need
+
+{% highlight python %}
+class Solution:
+    def reverseBits(self, n: int) -> int:
+        l = 0
+        r = 31
+        while l < r:
+            l_is_set = (n & (1 << l)) > 0
+            r_is_set = (n & (1 << r)) > 0
+            if l_is_set != r_is_set:
+                if l_is_set:
+                    n = n & (~(1 << l))
+                    n = n | (1 << r)
+                else:
+                    n = n & (~(1 << r))
+                    n = n | (1 << l)
+            l += 1
+            r -= 1
+        return n
+{% endhighlight %}
+
+https://leetcode.com/problems/reverse-bits/editorial/comments/739002
 
 #### **Inverse bits**
 
@@ -1020,6 +1076,15 @@ Nice task
 Nice task
 
 Where to look for more tasks? Leetcode filter by tag bitmask, maybe search some lists on codeforces
+
+#### todo
+
+check that list https://leetcode.com/problem-list/bit-manipulation/
+check that list https://leetcode.com/problem-list/bitmask/
+https://leetcode.com/discuss/interview-question/3695233/all-types-of-patterns-for-bits-manipulations-and-how-to-use-it
+https://leetcode.com/problems/sum-of-two-integers/solutions/84278/A-summary:-how-to-use-bit-manipulation-to-solve-problems-easily-and-efficiently
+
+looks like 20/80 done
 
 [698]: https://leetcode.com/problems/partition-to-k-equal-sum-subsets
 [1986]: https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks
