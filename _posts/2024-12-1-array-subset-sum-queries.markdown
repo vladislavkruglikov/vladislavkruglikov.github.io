@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "dp bits etc"
+title:  "bits xor dp bitmask submask"
 date:   2024-11-30
 description: What is bitmask dp and what approaches ared used to solve such kind of problems. Also some useful algorithms such as efficient submask enumeration and bit operations. Examples of few leetcode problems and their solutions with proofs and code examples
 ---
