@@ -5,13 +5,23 @@ date:   2024-11-30
 description: What is bitmask dp and what approaches ared used to solve such kind of problems. Also some useful algorithms such as efficient submask enumeration and bit operations. Examples of few leetcode problems and their solutions with proofs and code examples
 ---
 
-Any indication of a bit position is counted from the right and advancing left. For example in $$10110$$ bit in position $$0$$ is not set and bit in positon $$1$$ is set the again set then not set and then last bit is set. I have written here stuff that seems to be enough to solve pretty hard problems
+Notes on many patterns used to solve problems and come up with solution to new problems that can also be seen as a building blocks. I tried to present all ideas from simple to hard ones. For each idea there is bunch of problems that rely on that idea. I group similar problems that share the same idea and also some problems reference ideas from the past by anchor links so that I will not repeat the whole bunch of stuff under every problem solution text
 
-[bit manip resource](https://cp-algorithms.com/algebra/bit-manipulation.html)
+#### **Summary**
 
+In the [Introduction](#introduction) agreements are presented for common language use
+
+#### **Introduction**
+
+Any indication of a bit position is counted from the right and advancing left. For example in $$10110$$ bit in position $$0$$ is not set and bit in positon $$1$$ is set the again set then not set and then last bit is set. Also I use zero index notation which means that rightmost bit is considered to have zero index
+
+#### **Additional Resources**
+
+Competitive programming [resource](https://cp-algorithms.com/algebra/bit-manipulation.html) part about bit operations
+
+#### Notes On Bit Oerations In Python
 
 [Python specific Bitwise operations only make sense for integers. The result of bitwise operations is calculated as though carried out in two’s complement with an infinite number of sign bits.](https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex)
-
 
 #### **XOR**
 
