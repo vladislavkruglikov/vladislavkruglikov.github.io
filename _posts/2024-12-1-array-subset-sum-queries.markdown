@@ -15,11 +15,27 @@ In the [Introduction](#introduction) agreements are presented for common languag
 
 Any indication of a bit position is counted from the right and advancing left. For example in $$10110$$ bit in position $$0$$ is not set and bit in positon $$1$$ is set the again set then not set and then last bit is set. Also I use zero index notation which means that rightmost bit is considered to have zero index
 
+Refresher for [bits](https://en.wikipedia.org/wiki/Bit) and [bit numbering](https://en.wikipedia.org/wiki/Bit_numbering#Bit_significance_and_indexing) and [endianness](https://en.wikipedia.org/wiki/Endianness) and more [endianness](https://betterexplained.com/articles/understanding-big-and-little-endian-byte-order) and more [endianness](https://commandcenter.blogspot.com/2012/04/byte-order-fallacy.html)
+
 #### **Additional Resources**
 
 Competitive programming [resource](https://cp-algorithms.com/algebra/bit-manipulation.html) part about bit operations
 
-#### Notes On Bit Oerations In Python
+#### **Endianness**
+
+How to convert little endian to big endian. Suppose we have decimal number $$12531$$ which is in binary $$11000011110011$$ that if we split into 2 parts will be $$110000 \ 11110011$$ and pad left part with zeros such that it has length of $$8$$ will become $$00110000 \ 11110011$$ and now it is obvious that if we start with part $$11110011$$ that will be in decimal $$1\cdot2^7 + 1\cdot2^6 + 1\cdot2^5 + 1\cdot2^4 + 0\cdot2^3 + 0\cdot2^2 + 1\cdot2^1 + 1\cdot2^0 = 243$$ and then add $$0 0 1 1 0 0 0 0$$ the same way $$0\cdot2^{15} + 0\cdot2^{14} + 1\cdot2^{13} + 1\cdot2^{12} + 0\cdot2^{11} + 0\cdot2^{10} + 0\cdot2^9 + 0\cdot2^8 = 12288$$ and then sum them both to get $$243 + 12288 = 12531$$ exactly what we have initially. The way we calculated this called big endian in the way that big byte comes first. Big in the way that first byte reading from left to right is offsetted with $$2^7$$
+
+Now if we would like to view that in the little endian notation that we would make big byte last. So we basically need to swap bytes and now we have $$11110011 \ 00110000$$ where $$11110011$$ will equal $$243$$ and $$00110000$$ will equal $$12288$$ that is $$12531$$ in totla
+
+It is fair to say that endianness cares about byte order. Now it is clear why some definations say that endianness is a order on which bytes are transmitted or read. It is literally the order in which we update the power of $$2$$ in our calculations in convertion from binary representation to decimal representation
+
+#### **Twos Complement**
+
+#### **Notes On Bit Operations In Python**
+
+
+
+
 
 [Python specific Bitwise operations only make sense for integers. The result of bitwise operations is calculated as though carried out in two’s complement with an infinite number of sign bits.](https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex)
 
