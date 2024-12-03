@@ -7,6 +7,54 @@ description: What is bitmask dp and what approaches ared used to solve such kind
 
 Any indication of a bit position is counted from the right and advancing left. For example in $$10110$$ bit in position $$0$$ is not set and bit in positon $$1$$ is set the again set then not set and then last bit is set. I have written here stuff that seems to be enough to solve pretty hard problems
 
+[bit manip resource](https://cp-algorithms.com/algebra/bit-manipulation.html)
+
+
+[Python specific Bitwise operations only make sense for integers. The result of bitwise operations is calculated as though carried out in two’s complement with an infinite number of sign bits.](https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex)
+
+
+#### **XOR**
+
+0 0 -> 0, 0 1 -> 1, 1 0 -> 1, 1 1 -> 0
+
+* It outputs true whenever outputs are differnet
+* It is addition modulo $$2$$ when using just single input
+* when using multiple inputs such as 1110 XOR 1001 this is equivalent to addition without carry = 0111. It also means that addition of two n bit strings is identical to the standard vector of addition in the vector space (Z/2Z)^n
+
+[wiki is good](https://en.wikipedia.org/wiki/Exclusive_or)
+
+[nice exmaple about vector addiiotn in Z2](https://codeforces.com/blog/entry/68953)
+
+[very good patterns](https://florian.github.io/xor-trick/)
+
+
+Xor has Commutative property which means A XOR B = B XOR A
+also 
+
+Also A XOR A = 0
+
+#### **XOR of even occurances**
+
+$$a \oplus a \oplus b \oplus b \oplus c = c$$
+
+Generally XOR of even occurances the same element gives 0
+
+#### **XOR of even occurances application**
+
+[136. Single Number](https://leetcode.com/problems/single-number)
+just directly use XOR of even occurances property and xor all elements u will get single unique one
+
+[268. Missing Number](https://leetcode.com/problems/missing-number) here we can not just use directly pattern from previous example. but notice that if we add to our XOR also a xor of all elements from 1 to n then we will double all elements except one elemnt that is missing and then xor will output this element!
+
+from 268 use here in [3158. Find the XOR of Numbers Which Appear Twice](https://leetcode.com/problems/find-the-xor-of-numbers-which-appear-twice)
+
+#### **XOR property**
+
+If one builds an array bitmask with the help of the XOR operator, following bitmask ^= x strategy, the bitmask would keep only the bits that appear odd number of times
+
+#### **expand on the fact of Z2 in xor to Z3 in [137. Single Number II](https://leetcode.com/problems/single-number-ii)**
+
+
 #### **Least significant bit LSB**
 
 149 in decimal
