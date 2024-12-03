@@ -2,14 +2,14 @@
 layout: post
 title:  "bits xor dp bitmask submask"
 date:   2024-11-30
-description: What is bitmask dp and what approaches ared used to solve such kind of problems. Also some useful algorithms such as efficient submask enumeration and bit operations. Examples of few leetcode problems and their solutions with proofs and code examples
+description: Notes on many patterns used to solve problems and come up with solution to new problems that can also be seen as a building blocks. I tried to present all ideas from simple to hard ones. For each idea there is bunch of problems that rely on that idea
 ---
 
-Notes on many patterns used to solve problems and come up with solution to new problems that can also be seen as a building blocks. I tried to present all ideas from simple to hard ones. For each idea there is bunch of problems that rely on that idea. I group similar problems that share the same idea and also some problems reference ideas from the past by anchor links so that I will not repeat the whole bunch of stuff under every problem solution text
+Notes on many patterns used to solve problems and come up with solution to new problems that can also be seen as a building blocks. I tried to present all ideas from simple to hard ones. For each idea there is bunch of problems that rely on that idea. I group similar problems that share the same idea and also some problems reference ideas from the past by anchor links so that I will not repeat the whole bunch of stuff under every problem solution text. Also there is no need to preserve order of reading since if you do not understand something you can go back and quickly refresh on some topic you forgot about. You do not have to read the material from bottom to the top. Some topics are independent of another ones but still I ordered them in the sorted by diffuculty order. Also it might be useful to read summary first that provides a clear view on what topics are described so that you can quickly navigate throw. In this note I provide resources and patterns that are sort of building blocks for popular problems that require operations on bits. But there are a lot of problems that are bit problems but still have anther solutions using dfs or math. For such alternative solutions I will probably keep references to the other notes where that solutions are more appropriate to list. Thus this note will have everything you need to tackle any possible problem that requires bit operations. Basically anything that interviewer will throw at you this note will be enough to get it
 
 #### **Summary**
 
-In the [Introduction](#introduction) agreements are presented for common language use
+In the [Introduction](#introduction) agreements are presented for common language use that is must read to understand everything else
 
 #### **Introduction**
 
