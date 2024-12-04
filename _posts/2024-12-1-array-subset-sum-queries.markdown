@@ -29,7 +29,13 @@ Now if we would like to view that in the little endian notation that we would ma
 
 It is fair to say that endianness cares about byte order. Now it is clear why some definations say that endianness is a order on which bytes are transmitted or read. It is literally the order in which we update the power of $$2$$ in our calculations in convertion from binary representation to decimal representation
 
-#### **Twos Complement**
+#### **Significance**
+
+There is notation for [significant figures](https://en.wikipedia.org/wiki/Significant_figures) and [this](https://portal.tpu.ru/SHARED/z/ZETA/2/Значащие%20цифры.pdf)
+
+#### **Negative values**
+
+Need some way to represent negative values such that computer can understand that. One way is to go with [twos complement](https://en.wikipedia.org/wiki/Two%27s_complement) and one more [cool](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html) article
 
 #### **Notes On Bit Operations In Python**
 
