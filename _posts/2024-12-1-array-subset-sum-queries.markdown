@@ -39,37 +39,69 @@ Need some way to represent negative values such that computer can understand tha
 
 #### **Notes On Bit Operations In Python**
 
+They use twos complement with an infinite number of sign bits. Here is [more](https://docs.python.org/3/reference/expressions.html) and generally you can think that Python handles it behind the scenes such that you never actually have to think about when the bits will end just like in some other language such as C or other
+
+
+#### **Exclusive Or**
+
+Outputs true whenever outputs are differnet and outputs false whenever values are the same
+
+$$0 \oplus 0 = 1$$
+
+$$0 \oplus 1 = 0$$
+
+$$1 \oplus 0 = 0$$
+
+$$1 \oplus 1 = 1$$
+
+<br>
+
+Also can be seen as an addition without carry. Also vector element addition by modulo $$2$$
+
+$$1110 \oplus 1001 = 0111$$
+
+<br>
+
+Have commutative property
+
+$$A \oplus B = B \oplus A$$
+
+<br>
+
+When apply operation with the same element it returns zero
+
+$$A \oplus A = 0$$
+
+<br>
+
+Generally when apply operation with even number of elements it returns zero. Down below $$A$$ occurs even number of times
+
+$$A \oplus \ldots \oplus A = 0$$
+
+<br>
+
+Element with zero returns element
+
+$$A \oplus 0 = A$$
+
+<br>
+
+Even number of any number of elements with single element that occurs odd number of times returns that odd number. Down below $$A$$ occurs even number of times and $$B$$ occurs odd number of times
+
+$$A \oplus \ldots \oplus A \oplus B \oplus \ldots \oplus B = 0 \oplus 0 \oplus B$$
+
+[136. Single Number](#136.-Single-Number)
+
+<br>
+
+#### **[136. Single Number](https://leetcode.com/problems/single-number)**
+
+write down applicaton under each trick and refernce to task
+under each task write reference to trick
 
 
 
-
-[Python specific Bitwise operations only make sense for integers. The result of bitwise operations is calculated as though carried out in two’s complement with an infinite number of sign bits.](https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex)
-
-#### **XOR**
-
-0 0 -> 0, 0 1 -> 1, 1 0 -> 1, 1 1 -> 0
-
-* It outputs true whenever outputs are differnet
-* It is addition modulo $$2$$ when using just single input
-* when using multiple inputs such as 1110 XOR 1001 this is equivalent to addition without carry = 0111. It also means that addition of two n bit strings is identical to the standard vector of addition in the vector space (Z/2Z)^n
-
-[wiki is good](https://en.wikipedia.org/wiki/Exclusive_or)
-
-[nice exmaple about vector addiiotn in Z2](https://codeforces.com/blog/entry/68953)
-
-[very good patterns](https://florian.github.io/xor-trick/)
-
-
-Xor has Commutative property which means A XOR B = B XOR A
-also 
-
-Also A XOR A = 0
-
-#### **XOR of even occurances**
-
-$$a \oplus a \oplus b \oplus b \oplus c = c$$
-
-Generally XOR of even occurances the same element gives 0
+[post](https://florian.github.io/xor-trick) is the source of next patters
 
 #### **XOR of even occurances application**
 
