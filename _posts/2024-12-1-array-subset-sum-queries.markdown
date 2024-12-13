@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "bits xor dp bitmask submask"
-date:   2024-11-30
+date:   2024-12-1
 description: Notes on many patterns used to solve problems and come up with solution to new problems that can also be seen as a building blocks. I tried to present all ideas from simple to hard ones. For each idea there is bunch of problems that rely on that idea
 ---
 
