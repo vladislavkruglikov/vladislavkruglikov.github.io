@@ -29,6 +29,20 @@ basically we are asked for distance to NGE for each element. well, compute NGE, 
 
 ...
 
+#### 🍑 **[907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums)**
+
+...
+
+#### 🍑 **[2104. Sum of Subarray Ranges](https://leetcode.com/problems/sum-of-subarray-ranges)**
+
+Notice that 
+
+$$
+\sum_{subarray_i}{(max(subarray_i) - min(subarray_i))} = \sum_{subarray_i}{max(subarray_i) - \sum_{subarray_i}{min(subarray_i)}}
+$$
+
+But in [907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums) we learned how to find Sum of Subarray Minimums. then notice that we can also use the same strategy and find sum of subarray maximus and its done!
+
 #### 🌶️ **[1504. Count Submatrices With All Ones](https://leetcode.com/problems/count-submatrices-with-all-ones)**
 
 Start to think about how to enuerate all possible submatrices. well you can say that each submatrix ends on some row, has some height and starts in column l and ends in column r >= l
