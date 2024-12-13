@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "shortest path"
-date:   2024-12-13
+date:   2024-12-2
 description: Notes on many patterns used to solve problems and come up with solution to new problems that can also be seen as a building blocks for shortest path related problems
 ---
 
