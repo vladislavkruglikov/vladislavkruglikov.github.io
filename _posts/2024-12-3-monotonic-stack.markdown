@@ -29,11 +29,18 @@ basically we are asked for distance to NGE for each element. well, compute NGE, 
 
 ...
 
-#### 🍑 **[907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums)**
+#### 🌶️ **[907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums)**
 
-...
+Suppose we have closed range [l, r] where the minimum is at l<=i<=r
+then it is obvious that number of ranges with that i as a minimum counts as folllows. for every start element <= i we can select and end element >= i. Before i there are (i - l + 1) elements and after there are (r - i + 1) elements so total number of subranges is (i-l+1) * (r-i+1). then since i was min sum of all subranges is a[i] * (i-l+1) * (r-i+1)
 
-#### 🍑 **[2104. Sum of Subarray Ranges](https://leetcode.com/problems/sum-of-subarray-ranges)**
+Now for every element suppose that it is minimum element. find all subarraus with that element being as minimum, then count is using prev idea.
+
+Problem with duplicates
+
+also dp solution
+
+#### 🌶️ **[2104. Sum of Subarray Ranges](https://leetcode.com/problems/sum-of-subarray-ranges)**
 
 Notice that 
 
@@ -42,6 +49,10 @@ $$
 $$
 
 But in [907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums) we learned how to find Sum of Subarray Minimums. then notice that we can also use the same strategy and find sum of subarray maximus and its done!
+
+#### **[316. Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters)**
+
+Add current element to stack. then we check if next element is smaller and prev element occurs later, then we pop prev and append new. if next element is bigger we just add this to stack
 
 #### 🌶️ **[1504. Count Submatrices With All Ones](https://leetcode.com/problems/count-submatrices-with-all-ones)**
 
@@ -148,3 +159,11 @@ return s
 ```
 
 and now it is n^2 which is so cool! it is just as matrix size mn
+
+#### 🌶️ **[84. Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram)**
+
+use idea from sum of subarrays min, but now just get max, same idea
+
+#### 🌶️ **[2866. Beautiful Towers II](https://leetcode.com/problems/beautiful-towers-ii)**
+
+...
