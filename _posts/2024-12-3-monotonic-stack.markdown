@@ -7,19 +7,27 @@ description: Notes on monotonic stack
 
 Notes, foundation basically means that ideas from task persist among many other tasks and kinda crucual'ish u know...
 
-#### [foundation] 🫑 **[496. Next Greater Element I](https://leetcode.com/problems/next-greater-element-i)**
+* Find next/prev greatest element for evert element
+* Find next/prev smallest element for evert element
+* Find distance to next/prev greatest element for evert element
+* Find distance to next/prev smallest element for evert element
+* Find sum of subarray minimums/maximums/ranges
+
+#### 🫑 **[496. Next Greater Element I](https://leetcode.com/problems/next-greater-element-i)**
 
 NGE = next greater element
 
 Consider some index i, then its NGE is first value to the right that is bigger. but how do we get that value? well just go form right to left and update maximum value u have seen so far. if you have seen value that is bigger then last value seen then it means that any value to the left will first ecounter this new value rather then next value. if you encounter value less then current value, the point that it actually might be NGE for some other value so add this to stack. so add this to the stack, then when we see value that is bigger then our max it might be the case that we have seen value before and we will pop from stack untill we find bigger value or end up with empty stack & in the end do not forget to add this value to the stack also! 
 
+solution 1 go from right to left
+
+solution 2 go from left to riht
+
+https://dwf.dev/blog/2024/04/26/2024/monotonic-stacks-queues/
+
 #### 🫑 **[503. Next Greater Element II](https://leetcode.com/problems/next-greater-element-ii)**
 
 pretty much same idea as in 496 but just go 2 times over array
-
-#### 🌱 **[1762. Buildings With an Ocean View](https://leetcode.com/problems/buildings-with-an-ocean-view)**
-
-u have to solve it in 2 min as warm up
 
 #### 🫑 **[739. Daily Temperatures](https://leetcode.com/problems/daily-temperatures)**
 
@@ -27,7 +35,7 @@ basically we are asked for distance to NGE for each element. well, compute NGE, 
 
 #### 🍑 **[962. Maximum Width Ramp](https://leetcode.com/problems/maximum-width-ramp)**
 
-...
+go from end to start, consider every element as end. then the best answer u can get is to take the first occurance of minimum value. this can happen if right value >= left value. if it then update width and try the lefter left value, i.e pop form running min. if it works aswell pop more until it does not work. that is correct since after we have used current last value from running min stack we will not be able to improve score by just moving right closer to the left (width will become only smaller)
 
 #### 🌶️ **[907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums)**
 
@@ -50,7 +58,7 @@ $$
 
 But in [907. Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums) we learned how to find Sum of Subarray Minimums. then notice that we can also use the same strategy and find sum of subarray maximus and its done!
 
-#### **[316. Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters)**
+#### 🌶️ **[316. Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters)**
 
 Add current element to stack. then we check if next element is smaller and prev element occurs later, then we pop prev and append new. if next element is bigger we just add this to stack
 
@@ -162,7 +170,7 @@ and now it is n^2 which is so cool! it is just as matrix size mn
 
 #### 🌶️ **[84. Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram)**
 
-use idea from sum of subarrays min, but now just get max, same idea
+use idea from sum of subarrays min, but now just get max, same idea. iterate the same way by considering each element is min then try to extend as much as possible (maximize width), multiple element * width and update answer
 
 #### 🌶️ **[2866. Beautiful Towers II](https://leetcode.com/problems/beautiful-towers-ii)**
 
